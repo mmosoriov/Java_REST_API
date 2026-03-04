@@ -1,4 +1,4 @@
-# ReliaQuest's Entry-Level Java Challenge
+# ReliaQuest's Entry-Level Java Challenge: Miguel Mateo Osorio Vela
 
 Please keep the following in mind while working on this challenge:
 * Code implementations will not be graded for **correctness** but rather on practicality
