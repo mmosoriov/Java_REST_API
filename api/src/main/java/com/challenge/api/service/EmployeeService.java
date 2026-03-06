@@ -10,46 +10,43 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmployeeService {
-  private final List<Employee> employees = new ArrayList<>();
+    private final List<Employee> employees = new ArrayList<>();
 
-  public EmployeeService() {
-    initializeMockDatabase();
-  }
+    public EmployeeService() {
+        initializeMockDatabase();
+    }
 
-  private void initializeMockDatabase() {
-    employees.add(new EmployeeImpl(
-        UUID.fromString("550e8400-e29b-41d4-a716-446655440001"),
-        "Alice",
-        "Johnson",
-        95000,
-        30,
-        "Senior Engineer",
-        "alice.johnson@company.com",
-        Instant.parse("2020-01-15T10:00:00Z")
-    ));
-    employees.add(new EmployeeImpl(
-        UUID.fromString("550e8400-e29b-41d4-a716-446655440002"),
-        "Bob",
-        "Smith",
-        75000,
-        28,
-        "Sales Manager",
-        "bob.smith@company.com",
-        Instant.parse("2021-03-20T10:00:00Z")
-    ));
-    employees.add(new EmployeeImpl(
-        UUID.fromString("550e8400-e29b-41d4-a716-446655440003"),
-        "Carol",
-        "White",
-        85000,
-        35,
-        "HR Director",
-        "carol.white@company.com",
-        Instant.parse("2019-06-10T10:00:00Z")
-    ));
-  }
+    private void initializeMockDatabase() {
+        employees.add(new EmployeeImpl(
+                UUID.fromString("550e8400-e29b-41d4-a716-446655440001"),
+                "Alice",
+                "Johnson",
+                95000,
+                30,
+                "Senior Engineer",
+                "alice.johnson@company.com",
+                Instant.parse("2020-01-15T10:00:00Z")));
+        employees.add(new EmployeeImpl(
+                UUID.fromString("550e8400-e29b-41d4-a716-446655440002"),
+                "Bob",
+                "Smith",
+                75000,
+                28,
+                "Sales Manager",
+                "bob.smith@company.com",
+                Instant.parse("2021-03-20T10:00:00Z")));
+        employees.add(new EmployeeImpl(
+                UUID.fromString("550e8400-e29b-41d4-a716-446655440003"),
+                "Carol",
+                "White",
+                85000,
+                35,
+                "HR Director",
+                "carol.white@company.com",
+                Instant.parse("2019-06-10T10:00:00Z")));
+    }
 
-  public List<Employee> getAllEmployees() {
-    return new ArrayList<>(employees);
-  }
+    public List<Employee> getAllEmployees() {
+        return new ArrayList<>(employees);
+    }
 }
