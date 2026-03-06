@@ -54,6 +54,7 @@ public class EmployeeImpl implements Employee {
     @Override
     public void setFirstName(String name) {
         this.firstName = name;
+        updateFullName();
     }
 
     @Override
@@ -64,6 +65,7 @@ public class EmployeeImpl implements Employee {
     @Override
     public void setLastName(String name) {
         this.lastName = name;
+        updateFullName();
     }
 
     @Override
@@ -74,6 +76,7 @@ public class EmployeeImpl implements Employee {
     @Override
     public void setFullName(String name) {
         this.fullName = name;
+        updateNameComponents();
     }
 
     @Override
@@ -134,5 +137,21 @@ public class EmployeeImpl implements Employee {
     @Override
     public void setContractTerminationDate(Instant date) {
         this.contractTerminationDate = date;
+    }
+    /**
+     * Syncs changes when firstName or lastName are changed
+     */
+    private void updateFullName() {
+        this.fullName = firstName + " " + lastName;
+    }
+    /**
+     * Syncs changes when fullName is changed
+     */
+    private void updateNameComponents() {
+        if (fullName != null && fullName.contains(" ")) {
+            int spaceIndex = fullName.lastIndexOf(" ");
+            this.firstName = fullName.substring(0, spaceIndex);
+            this.lastName = fullName.substring(spaceIndex + 1);
+        }
     }
 }
