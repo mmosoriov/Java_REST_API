@@ -21,7 +21,7 @@ public class EmployeeService {
                 UUID.fromString("550e8400-e29b-41d4-a716-446655440001"),
                 "Alice",
                 "Johnson",
-                95000,
+                98000,
                 30,
                 "Senior Engineer",
                 "alice.johnson@company.com",
@@ -48,5 +48,22 @@ public class EmployeeService {
 
     public List<Employee> getAllEmployees() {
         return new ArrayList<>(employees);
+    }
+    /**
+     * TODO: Exceptions handling in other branhces, 
+     */
+    public Employee getEmployeeByUuid(UUID uuid) {
+        return employees.stream()
+                .filter(emp -> emp.getUuid().equals(uuid))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public Employee createEmployee(Employee newEmployee) {
+        if (newEmployee.getUuid() == null) {
+            newEmployee.setUuid(UUID.randomUUID());
+        }
+        employees.add(newEmployee);
+        return newEmployee;
     }
 }

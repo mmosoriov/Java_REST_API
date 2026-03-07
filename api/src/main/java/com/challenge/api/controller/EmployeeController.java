@@ -1,46 +1,65 @@
 package com.challenge.api.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 import com.challenge.api.model.Employee;
+import com.challenge.api.model.EmployeeModelAssembler;
 import com.challenge.api.service.EmployeeService;
 import java.util.List;
-import org.springframework.http.HttpStatus;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Fill in the missing aspects of this Spring Web REST Controller. Don't forget to add a Service layer.
- */
 @RestController
 @RequestMapping("/api/v1/employee")
 public class EmployeeController {
     private final EmployeeService employeeService;
+    private final EmployeeModelAssembler assembler;
 
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, EmployeeModelAssembler assembler) {
         this.employeeService = employeeService;
+        this.assembler = assembler;
     }
 
     @GetMapping
-    public ResponseEntity<List<Employee>> getAllEmployees() {
-        List<Employee> employees = employeeService.getAllEmployees();
-        return new ResponseEntity<>(employees, HttpStatus.OK);
+    public CollectionModel<EntityModel<Employee>> getAllEmployees() {
+        List<EntityModel<Employee>> employees = employeeService.getAllEmployees().stream()
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
+        return CollectionModel.of(
+                employees,
+                linkTo(methodOn(EmployeeController.class).getAllEmployees()).withSelfRel());
     }
-    // /**
-    //  * @implNote Need not be concerned with an actual persistence layer. Generate mock Employee model as necessary.
-    //  * @param uuid Employee UUID
-    //  * @return Requested Employee if exists
-    //  */
-    // public Employee getEmployeeByUuid(UUID uuid) {
-    //     throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
-    // }
 
-    // /**
-    //  * @implNote Need not be concerned with an actual persistence layer.
-    //  * @param requestBody hint!
-    //  * @return Newly created Employee
-    //  */
-    // public Employee createEmployee(Object requestBody) {
-    //     throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
-    // }
+    /**
+     *TODO LATER
+     */
+    @GetMapping("/{uuid}")
+    public EntityModel<Employee> getEmployeeByUuid(@PathVariable UUID uuid) {
+        Employee employee = employeeService.getEmployeeByUuid(uuid);
+        if (employee == null) {
+            return null; // Consider throwing EmployeeNotFoundException instead
+        }
+        return assembler.toModel(employee);
+    }
+    /**
+     *TODO LATER
+     */
+    @PostMapping
+    public ResponseEntity<EntityModel<Employee>> createEmployee(@RequestBody Employee newEmployee) {
+        Employee created = employeeService.createEmployee(newEmployee);
+        EntityModel<Employee> entityModel = assembler.toModel(created);
+        return ResponseEntity.created(
+                        entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(entityModel);
+    }
 }
