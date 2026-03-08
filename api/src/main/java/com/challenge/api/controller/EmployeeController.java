@@ -42,20 +42,18 @@ public class EmployeeController {
 
     @GetMapping("/{uuid}")
     public EntityModel<Employee> getEmployeeByUuid(@PathVariable UUID uuid) {
-        Employee employee = employeeService
-                .getEmployeeByUuid(uuid)
-                .orElseThrow(() -> new EmployeeNotFoundException(uuid));
+        Employee employee =
+                employeeService.getEmployeeByUuid(uuid).orElseThrow(() -> new EmployeeNotFoundException(uuid));
         return assembler.toModel(employee);
     }
-    /**
-     *TODO LATER
-     */
+
     @PostMapping
-    public ResponseEntity<EntityModel<Employee>> createEmployee(@RequestBody Employee newEmployee) {
-        Employee created = employeeService.createEmployee(newEmployee);
-        EntityModel<Employee> entityModel = assembler.toModel(created);
+    public ResponseEntity<?> createEmployee(@RequestBody Employee newEmployee) {
+
+        EntityModel<Employee> entityModel = assembler.toModel(employeeService.createEmployee(newEmployee));
         return ResponseEntity.created(
                         entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
     }
+    // Todo: Duplicate creation exception
 }

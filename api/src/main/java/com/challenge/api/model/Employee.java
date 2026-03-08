@@ -1,5 +1,6 @@
 package com.challenge.api.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -7,6 +8,7 @@ import java.util.UUID;
  * Every abstraction of an Employee should, at the bare minimum, implement this interface. Consider this a binding
  * contract for the domain model of an Employee.
  */
+@JsonDeserialize(as = EmployeeImpl.class)
 public interface Employee {
 
     UUID getUuid();
