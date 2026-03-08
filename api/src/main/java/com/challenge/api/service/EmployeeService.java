@@ -5,6 +5,7 @@ import com.challenge.api.model.EmployeeImpl;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 
@@ -49,14 +50,9 @@ public class EmployeeService {
     public List<Employee> getAllEmployees() {
         return new ArrayList<>(employees);
     }
-    /**
-     * TODO: Exceptions handling in other branches,
-     */
-    public Employee getEmployeeByUuid(UUID uuid) {
-        return employees.stream()
-                .filter(emp -> emp.getUuid().equals(uuid))
-                .findFirst()
-                .orElse(null);
+
+    public Optional<Employee> getEmployeeByUuid(UUID uuid) {
+        return employees.stream().filter(emp -> emp.getUuid().equals(uuid)).findFirst();
     }
 
     public Employee createEmployee(Employee newEmployee) {

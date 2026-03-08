@@ -40,15 +40,11 @@ public class EmployeeController {
                 linkTo(methodOn(EmployeeController.class).getAllEmployees()).withSelfRel());
     }
 
-    /**
-     *TODO LATER
-     */
     @GetMapping("/{uuid}")
     public EntityModel<Employee> getEmployeeByUuid(@PathVariable UUID uuid) {
-        Employee employee = employeeService.getEmployeeByUuid(uuid);
-        if (employee == null) {
-            return null; // Consider throwing EmployeeNotFoundException instead
-        }
+        Employee employee = employeeService
+                .getEmployeeByUuid(uuid) //
+                .orElseThrow(() -> new EmployeeNotFoundException(uuid));
         return assembler.toModel(employee);
     }
     /**
