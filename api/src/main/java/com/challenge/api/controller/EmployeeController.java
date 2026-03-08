@@ -43,7 +43,7 @@ public class EmployeeController {
     @GetMapping("/{uuid}")
     public EntityModel<Employee> getEmployeeByUuid(@PathVariable UUID uuid) {
         Employee employee = employeeService
-                .getEmployeeByUuid(uuid) //
+                .getEmployeeByUuid(uuid)
                 .orElseThrow(() -> new EmployeeNotFoundException(uuid));
         return assembler.toModel(employee);
     }
