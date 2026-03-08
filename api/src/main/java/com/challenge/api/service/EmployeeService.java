@@ -50,7 +50,7 @@ public class EmployeeService {
         return new ArrayList<>(employees);
     }
     /**
-     * TODO: Exceptions handling in other branhces, 
+     * TODO: Exceptions handling in other branches,
      */
     public Employee getEmployeeByUuid(UUID uuid) {
         return employees.stream()
