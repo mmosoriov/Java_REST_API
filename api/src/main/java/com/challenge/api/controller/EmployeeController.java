@@ -42,9 +42,7 @@ public class EmployeeController {
 
     @GetMapping("/{uuid}")
     public EntityModel<Employee> getEmployeeByUuid(@PathVariable UUID uuid) {
-        Employee employee =
-                employeeService.getEmployeeByUuid(uuid).orElseThrow(() -> new EmployeeNotFoundException(uuid));
-        return assembler.toModel(employee);
+        return assembler.toModel(employeeService.getEmployeeByUuid(uuid));
     }
 
     @PostMapping
@@ -55,5 +53,4 @@ public class EmployeeController {
                         entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
     }
-    // Todo: Duplicate creation exception
 }

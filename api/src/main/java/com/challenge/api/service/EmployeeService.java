@@ -2,6 +2,8 @@ package com.challenge.api.service;
 
 import com.challenge.api.model.Employee;
 import com.challenge.api.model.EmployeeImpl;
+import com.challenge.api.exception.EmployeeAlreadyExistsException;
+import com.challenge.api.exception.EmployeeNotFoundException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,13 +53,19 @@ public class EmployeeService {
         return new ArrayList<>(employees);
     }
 
-    public Optional<Employee> getEmployeeByUuid(UUID uuid) {
-        return employees.stream().filter(emp -> emp.getUuid().equals(uuid)).findFirst();
+    public Employee getEmployeeByUuid(UUID uuid) {
+        return employees.stream()
+                .filter(emp -> emp.getUuid().equals(uuid))
+                .findFirst()
+                .orElseThrow(() -> new EmployeeNotFoundException(uuid));
     }
 
     public Employee createEmployee(Employee newEmployee) {
         if (newEmployee.getUuid() == null) {
             newEmployee.setUuid(UUID.randomUUID());
+        }
+        if (employees.stream().anyMatch(emp -> emp.getUuid().equals(newEmployee.getUuid()))) {
+            throw new EmployeeAlreadyExistsException(newEmployee.getUuid());
         }
         employees.add(newEmployee);
         return newEmployee;
