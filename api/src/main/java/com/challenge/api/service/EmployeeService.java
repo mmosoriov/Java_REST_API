@@ -1,13 +1,12 @@
 package com.challenge.api.service;
 
-import com.challenge.api.model.Employee;
-import com.challenge.api.model.EmployeeImpl;
 import com.challenge.api.exception.EmployeeAlreadyExistsException;
 import com.challenge.api.exception.EmployeeNotFoundException;
+import com.challenge.api.model.Employee;
+import com.challenge.api.model.EmployeeImpl;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 

@@ -2,4 +2,8 @@ spring.application.name: entry-level-java-challenge
 
 server:
   error:
-    include-message: always 
+    include-message: always
+
+api:
+  security:
+    key: ${API_KEY:dev-only-insecure-key}
