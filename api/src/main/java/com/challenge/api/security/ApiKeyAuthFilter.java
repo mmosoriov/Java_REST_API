@@ -13,17 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-/**
- * Authenticates incoming requests by validating the {@code X-API-Key} header against
- * a pre-shared secret configured via the {@code api.security.key} property.
- *
- * <p>If the key is valid, a {@code ROLE_WEBHOOK_CLIENT} authority is set in the
- * {@link SecurityContextHolder}, allowing downstream authorization to proceed normally.
- * If missing or invalid, no authentication is set and Spring Security's
- * {@link org.springframework.security.web.access.ExceptionTranslationFilter} returns a 401.
- *
- * <p>This pattern is well-suited for machine-to-machine webhook integrations where
- * a single trusted consumer (Employees-R-US) holds a pre-shared secret.
+/** 
+ * Validates the {X-API-Key} header and sets {ROLE_WEBHOOK_CLIENT} authentication; 
+ * missing or invalid keys result in a 401. 
  */
 @Component
 public class ApiKeyAuthFilter extends OncePerRequestFilter {

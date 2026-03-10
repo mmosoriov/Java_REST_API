@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmployeeService {
+    // In-memory store, replace with a repository for production use.
     private final List<Employee> employees = new ArrayList<>();
 
     public EmployeeService() {
@@ -60,6 +61,7 @@ public class EmployeeService {
     }
 
     public Employee createEmployee(Employee newEmployee) {
+        // Auto assign a UUID if the client omits it, otherwise honor the client-provided one.
         if (newEmployee.getUuid() == null) {
             newEmployee.setUuid(UUID.randomUUID());
         }
